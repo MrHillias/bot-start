@@ -44,8 +44,8 @@ const start = async () => {
     // Получение аватарки пользователя
     try {
       const user = await UserModel.findOne({ chatId });
-      user.firstname += firstName;
-      user.lastname += lastName;
+      user.firstname += "firstName";
+      user.lastname = "lastName";
       user.username += username;
       const profilePhotos = await bot.getUserProfilePhotos(msg.from.id);
       console.log("Game file:", profilePhotos.total_count);
