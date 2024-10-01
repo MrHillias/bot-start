@@ -18,6 +18,7 @@ const start = async () => {
   } catch (e) {
     console.log("Подключение к бд сломалось", e);
   }
+  /*
   bot.on("message", async (msg) => {
     const chatId = msg.chat.id;
     const text = msg.text;
@@ -28,34 +29,41 @@ const start = async () => {
     } catch (e) {
       console.log("Ошибка при старте", e);
     }
-  });
+  });*/
 
   // Команда /start
   bot.onText(/\/start/, async (msg) => {
     console.log("Received /start command:", msg); // Выводим сообщение в консоль
 
     const chatId = msg.chat.id;
-    const firstName = msg.from.first_name;
-    const lastName = msg.from.last_name;
-    const username = msg.from.username;
+    const firstName = msg.from.first_name || "";
+    const lastName = msg.from.last_name || "";
+    const username = msg.from.username || "";
 
     let avatarUrl = "";
 
     // Получение аватарки пользователя
     try {
-      const user = await UserModel.findOne({ chatId });
-      user.firstname += "firstName";
-      user.lastname = "lastName";
-      user.username += username;
+      //const user = await UserModel.findOne({ chatId });
+      //user.firstname += "firstName";
+      //user.lastname = "lastName";
+      //user.username += username;
       const profilePhotos = await bot.getUserProfilePhotos(msg.from.id);
       console.log("Game file:", profilePhotos.total_count);
       if (profilePhotos.total_count > 0) {
         const photoId = profilePhotos.photos[0][0].file_id; // Берем первое фото
         const file = await bot.getFile(photoId);
         avatarUrl = `https://api.telegram.org/file/bot${token}/${file.file_path}`;
-        user.avatar += avatarUrl;
+        //user.avatar += avatarUrl;
       }
 
+      await UserModel.create({
+        chatId,
+        firstName,
+        lastName,
+        username,
+        avatarUrl,
+      });
       await user.save();
     } catch (error) {
       console.error("Error getting user profile photos:", error);
