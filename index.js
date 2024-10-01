@@ -35,9 +35,9 @@ const start = async () => {
     console.log("Received /start command:", msg); // Выводим сообщение в консоль
 
     const chatId = msg.chat.id;
-    const firstName = msg.from.first_name || "";
-    const lastName = msg.from.last_name || "";
-    const username = msg.from.username || "";
+    const firstName = msg.from.first_name;
+    const lastName = msg.from.last_name;
+    const username = msg.from.username;
 
     let avatarUrl = "";
 
