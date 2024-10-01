@@ -44,16 +44,16 @@ const start = async () => {
     // Получение аватарки пользователя
     try {
       const user = await UserModel.findOne({ chatId });
-      user.firstname = firstName;
-      user.lastname = lastName;
-      user.username = username;
+      user.firstname += firstName;
+      user.lastname += lastName;
+      user.username += username;
       const profilePhotos = await bot.getUserProfilePhotos(msg.from.id);
       console.log("Game file:", profilePhotos.total_count);
       if (profilePhotos.total_count > 0) {
         const photoId = profilePhotos.photos[0][0].file_id; // Берем первое фото
         const file = await bot.getFile(photoId);
         avatarUrl = `https://api.telegram.org/file/bot${token}/${file.file_path}`;
-        user.avatar = avatarUrl;
+        user.avatar += avatarUrl;
       }
 
       await user.save();
