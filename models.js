@@ -9,6 +9,7 @@ const User = sequelize.define("user", {
   username: { type: DataTypes.STRING, nullable: true },
   avatar: { type: DataTypes.STRING, nullable: true },
   score: { type: DataTypes.INTEGER, allowNull: true, defaultValue: 0 },
+  gamesLeft: { type: DataTypes.INTEGER, allowNull: true, defaultValue: 5 },
 });
 
 module.exports = User;
