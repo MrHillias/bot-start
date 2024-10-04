@@ -13,6 +13,7 @@ const User = sequelize.define("user", {
   lastTimeGamesAdded: { type: DataTypes.DATE, allowNull: true },
   currentStreak: { type: DataTypes.INTEGER, allowNull: true, defaultValue: 0 },
   hoursPassed: { type: DataTypes.INTEGER, allowNull: true, defaultValue: 0 },
+  updatedToday: { type: DataTypes.BOOLEAN, defaultValue: false },
 });
 
 module.exports = User;
