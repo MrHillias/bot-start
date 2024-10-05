@@ -7,6 +7,11 @@ const tgBot = require("node-telegram-bot-api");
 const UserModel = require("./models");
 const sequelize = require("./db");
 
+const sequelize_invite = require("./db_invites");
+const UserInvite = require("./models_invite");
+
+const { v4: uuidv4 } = require("uuid");
+
 const token = "7074926259:AAH3uW4oybN23rQt_eD9pCqGdapqWz3qtYI";
 
 const bot = new tgBot(token, { polling: true });
@@ -16,7 +21,13 @@ const start = async () => {
     await sequelize.authenticate();
     await sequelize.sync();
   } catch (e) {
-    console.log("Подключение к бд сломалось", e);
+    console.log("Подключение к бд пользователей сломалось", e);
+  }
+  try {
+    await sequelize_invite.authenticate();
+    await sequelize_invite.sync();
+  } catch (e) {
+    console.log("Подключение к бд приглашений сломалось", e);
   }
   /*
   bot.on("message", async (msg) => {
@@ -65,6 +76,10 @@ const start = async () => {
         avatarUrl,
       });
       await user.save();
+      const uniqueCode = uuidv4();
+      const inviteLink = `https://t.me/drive/app?startapp=ref_${uniqueCode}`;
+      await UserInvite.create({ chatId, code: uniqueCode, inviteLink });
+      await UserInvite.save();
     } catch (error) {
       console.error("Error getting user profile photos:", error);
     }
