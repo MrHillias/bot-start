@@ -14,6 +14,7 @@ const User = sequelize.define("user", {
   currentStreak: { type: DataTypes.INTEGER, allowNull: true, defaultValue: 0 },
   hoursPassed: { type: DataTypes.INTEGER, allowNull: true, defaultValue: 0 },
   updatedToday: { type: DataTypes.BOOLEAN, defaultValue: false },
+  totalFarm: { type: DataTypes.INTEGER, defaultValue: 0 },
 });
 
 module.exports = User;
